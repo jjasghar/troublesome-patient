@@ -1,0 +1,7 @@
+# General Configuration
+
+# Ollama Model name
+MODEL_NAME='granite3.2:latest'
+
+# CSV Location
+CSV_FILE_LOCATION='profiles'

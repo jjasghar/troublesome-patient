@@ -1,10 +1,21 @@
 import csv
 import ollama
 import os
+import tomllib
 import random
 import logging
 from faker import Faker
 from ollama import Client
+
+import os.path
+if not os.path.exists("config.toml"):
+    print("*****")
+    print("You need to have a config.toml for this application to work, check config.toml exists")
+    print("*****")
+    exit(1)
+
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
 
 class Patient:
     def __init__(self, age, level, intensity, name, job, spirits):
@@ -16,8 +27,9 @@ class Patient:
         self.spirits = spirits
 
 fake = Faker()
-model_name = 'granite3.2:latest'
-csv_file = "profiles/adult_patient_profiles.csv"
+model_name = config["MODEL_NAME"]
+## TODO: Eventually add the drop down for the pediatric option here-ish.
+csv_file = f"{config['CSV_FILE_LOCATION']}/adult_patient_profiles.csv"
 ollama_host = os.environ.get('OLLAMA_SELF_HOST', '127.0.0.1')
 
 def read_csv(csv_file):
